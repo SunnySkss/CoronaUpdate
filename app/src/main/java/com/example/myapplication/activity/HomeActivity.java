@@ -102,20 +102,15 @@ public class HomeActivity extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-
-
                 if(newText.length()>0){
                     searchCountry=new ArrayList<>();
                     for(int i=0;i<countryName.size();i++) {
                         if (((ArrayList) ((Object) countryName.get(i))).get(0).toString().toLowerCase().contains(newText.toLowerCase())) {
-
                             //Toast.makeText(HomeActivity.this, "Avail", Toast.LENGTH_SHORT).show();
                             searchCountry.add(countryName.get(i));
-
                         }
                     }
                     adapter.filterList(searchCountry);
-                    //setSearchAdapter(searchCountry);
                 }
                 return true;
             }
@@ -185,7 +180,6 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 if(!dataExists){
                     countryName.add(country_list.get(i));
-
                 }
             }
             adapter = new CountryNameRecyclerAdapter(this, countryName);
