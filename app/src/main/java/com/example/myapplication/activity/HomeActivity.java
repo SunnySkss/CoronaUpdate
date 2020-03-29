@@ -188,7 +188,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
             }
-//            countryName=country_list;
             adapter = new CountryNameRecyclerAdapter(this, countryName);
             myRecycler.setAdapter(adapter);
             progressDoalog.dismiss();
