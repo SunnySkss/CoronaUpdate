@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:background="#E5F3DE"
+
+    tools:context="com.example.myapplication.activity.HomeActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_weight="1.25"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorAccent"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        >
+        <LinearLayout
+            android:gravity="center|left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_weight=".95"
+                android:text="Country Names"
+                android:layout_width="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+            </TextView>
+
+            <ImageView
+                android:id="@+id/shareApp"
+                android:layout_weight=".05"
+                android:layout_width="25dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|end"
+                android:background="@drawable/share_icon"
+                android:layout_marginRight="7dp"
+                >
+
+            </ImageView>
+            ></LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_weight="8.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/recycler"
+        android:background="#F5F2F2"
+        />
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:weightSum="10">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="5"
+                android:src="@drawable/patient"
+                android:layout_gravity="right"
+                android:foregroundGravity="right"
+                ></ImageView>
+            <TextView
+                android:id="@+id/totalInfect"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:text="NA"
+                android:textStyle="bold"
+                ></TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:weightSum="10">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="5"
+                android:src="@drawable/recover"
+                android:layout_gravity="right"
+                android:foregroundGravity="right"
+                ></ImageView>
+            <TextView
+                android:id="@+id/totalRecover"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:textSize="16dp"
+                android:text="NA"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#4A7717"
+                ></TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+
+            android:weightSum="10">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="5"
+                android:src="@drawable/death"
+                android:layout_gravity="right"
+                android:foregroundGravity="right"
+                ></ImageView>
+            <TextView
+                android:id="@+id/totalDeath"
+                android:textSize="16dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="NA"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_red_dark"
+
+                ></TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

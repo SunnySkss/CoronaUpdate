@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "337052657706",
+    "firebase_url": "https://coronalive-9d788.firebaseio.com",
+    "project_id": "coronalive-9d788",
+    "storage_bucket": "coronalive-9d788.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337052657706:android:4375b5acc1b0b75c96bb53",
+        "android_client_info": {
+          "package_name": "com.rohit.coronalive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337052657706-0qk7a4dcb9a5e7sqn6rc1ubvkc18he9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2TyjMIbr03qDrg_SueltqUBUTVJChYAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337052657706-0qk7a4dcb9a5e7sqn6rc1ubvkc18he9i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
