@@ -1,6 +1,5 @@
 package com.example.myapplication.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -44,18 +44,18 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView myRecycler;
     private CountryNameRecyclerAdapter adapter;
-    private ArrayList<String>countryName;//=new ArrayList<String>();
-    private ArrayList<String>searchCountry;
+    private ArrayList<String> countryName;//=new ArrayList<String>();
+    private ArrayList<String> searchCountry;
     private ProgressDialog progressDoalog;
-    private TextView totalInfect,totalRecover,totalDeath;
+    private TextView totalInfect, totalRecover, totalDeath;
     private ImageView shareApp;
     private Toolbar toolbar;
     private EditText searchET;
     private TextView titleTV;
-    boolean search=false;
+    boolean search = false;
     private static final String FB_RC_KEY_LATEST_VERSION = "app_current_version";
     private static final String FB_RC_KEY_APP_URL = "app_play_store_url";
-    ImageView searchImg,searchCloseImg;
+    ImageView searchImg, searchCloseImg;
     FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Override
@@ -63,19 +63,19 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        myRecycler=findViewById(R.id.recycler);
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        myRecycler = findViewById(R.id.recycler);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
-        titleTV=findViewById(R.id.titleTV);
-        totalInfect=findViewById(R.id.totalInfect);
-        totalRecover=findViewById(R.id.totalRecover);
-        totalDeath=findViewById(R.id.totalDeath);
-        countryName=new ArrayList<String>();
-        shareApp=findViewById(R.id.shareApp);
-        toolbar=findViewById(R.id.toolbar);
-        searchET=findViewById(R.id.searchET);
-        searchImg=findViewById(R.id.searchImg);
-        searchCloseImg=findViewById(R.id.searchCloseImg);
+        titleTV = findViewById(R.id.titleTV);
+        totalInfect = findViewById(R.id.totalInfect);
+        totalRecover = findViewById(R.id.totalRecover);
+        totalDeath = findViewById(R.id.totalDeath);
+        countryName = new ArrayList<String>();
+        shareApp = findViewById(R.id.shareApp);
+        toolbar = findViewById(R.id.toolbar);
+        searchET = findViewById(R.id.searchET);
+        searchImg = findViewById(R.id.searchImg);
+        searchCloseImg = findViewById(R.id.searchCloseImg);
         searchImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,9 +105,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(s.length()>0){
-                    searchCountry=new ArrayList<>();
-                    for(int i=0;i<countryName.size();i++) {
+                if (s.length() > 0) {
+                    searchCountry = new ArrayList<>();
+                    for (int i = 0; i < countryName.size(); i++) {
                         if (((ArrayList) ((Object) countryName.get(i))).get(0).toString().toLowerCase().contains(s.toString().toLowerCase())) {
                             //Toast.makeText(HomeActivity.this, "Avail", Toast.LENGTH_SHORT).show();
                             searchCountry.add(countryName.get(i));
@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     adapter.filterList(searchCountry);
                 }
-                if(s.length()<=0){
+                if (s.length() <= 0) {
                     adapter.filterList(countryName);
                 }
             }
@@ -134,24 +134,23 @@ public class HomeActivity extends AppCompatActivity {
                 shareApp();
             }
         });
-        forceUpdateConfig();
     }
 
-    public void shareApp(){
+    public void shareApp() {
         try {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Corona Live");
-            String shareMessage= "\nCorona Live Update.\n\nLet me recommend you this application\n\n";
-            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+            String shareMessage = "\nCorona Live Update.\n\nLet me recommend you this application\n\n";
+            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
             startActivity(Intent.createChooser(shareIntent, "choose one"));
-        } catch(Exception e) {
+        } catch (Exception e) {
 
         }
     }
 
-    public void fetchData(){
+    public void fetchData() {
         progressDoalog = new ProgressDialog(HomeActivity.this);
         progressDoalog.setMessage("Live Corona Data.....");
         progressDoalog.setCanceledOnTouchOutside(false);
@@ -161,56 +160,54 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<CoronaPojo>() {
             @Override
             public void onResponse(Call<CoronaPojo> call, Response<CoronaPojo> response) {
-
-                try {
-                    if(response.isSuccessful() && response.code()==200){
+                    if (response.isSuccessful() && response.code() == 200) {
                         totalDeath.setText(response.body().getCorona_cases().get(1).trim());
                         totalInfect.setText(response.body().getCorona_cases().get(0).trim());
                         totalRecover.setText(response.body().getCorona_cases().get(2).trim());
                         setAdapter(((ArrayList) response.body().getCorona()));
                     }
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
             }
+
             @Override
             public void onFailure(Call<CoronaPojo> call, Throwable t) {
                 progressDoalog.dismiss();
-                Log.e("asss", t.getMessage());
                 Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    boolean dataExists=false;
-    public void setAdapter(ArrayList<String> country_list){
+    boolean dataExists = false;
+
+    public void setAdapter(ArrayList<String> country_list) {
         try {
             countryName.add(country_list.get(0));
-            for(int i=0;i<country_list.size();i++){
-                dataExists=false;
-                int countryLength=countryName.size();
-                for(int country=0;country<countryLength;country++){
-                    if(((ArrayList) ((Object) country_list.get(i))).get(0).toString().trim().toLowerCase().
-                            equals(((ArrayList) ((Object) countryName.get(country))).get(0).toString().trim().toLowerCase())){
-                        dataExists=true;
+            for (int i = 0; i < country_list.size(); i++) {
+                dataExists = false;
+                for (int country = 0; country < countryName.size(); country++) {
+                    if (((ArrayList) ((Object) country_list.get(i))).get(0).toString().trim().toLowerCase().
+                        equals(((ArrayList) ((Object) countryName.get(country))).get(0).toString().trim().toLowerCase())) {
+                        dataExists = true;
                     }
                 }
-                if(!dataExists){
+                if (!dataExists) {
                     countryName.add(country_list.get(i));
                 }
             }
             adapter = new CountryNameRecyclerAdapter(this, countryName);
             myRecycler.setAdapter(adapter);
             progressDoalog.dismiss();
-        }catch (Exception ex){
-            Log.e("adapter exception",ex.toString());
+        } catch (Exception ex) {
             progressDoalog.dismiss();
             Toast.makeText(this, "Please try after some time.", Toast.LENGTH_SHORT).show();
         }
 
     }
+
     private void forceUpdateConfig() {
+        progressDoalog = new ProgressDialog(HomeActivity.this);
+        progressDoalog.setMessage("Checking for app update...");
+        progressDoalog.setCanceledOnTouchOutside(false);
+        progressDoalog.show();
         final int versionCode = BuildConfig.VERSION_CODE;
 
         final HashMap<String, Object> defaultMap = new HashMap<>();
@@ -227,14 +224,15 @@ public class HomeActivity extends AppCompatActivity {
 
         fetchTask.addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()) {
+                    progressDoalog.dismiss();
                     // After config data is successfully fetched, it must be activated before newly fetched
                     // values are returned.
                     mFirebaseRemoteConfig.activateFetched();
 
                     int latestAppVersion = Integer.parseInt(getValue(FB_RC_KEY_LATEST_VERSION, defaultMap));
-                    String appUrl = getValue(FB_RC_KEY_APP_URL,defaultMap);
+                    String appUrl = getValue(FB_RC_KEY_APP_URL, defaultMap);
 
                     if (latestAppVersion > versionCode) {
                         AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
@@ -260,8 +258,7 @@ public class HomeActivity extends AppCompatActivity {
                                     }
                                 })
                             .show();
-                    }
-                    else{
+                    } else {
                         fetchData();
                     }
 
@@ -273,6 +270,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
     public String getValue(String parameterKey, HashMap<String, Object> defaultMap) {
         String value = mFirebaseRemoteConfig.getString(parameterKey);
         if (TextUtils.isEmpty(value))
@@ -281,4 +279,15 @@ public class HomeActivity extends AppCompatActivity {
         return value;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        forceUpdateConfig();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

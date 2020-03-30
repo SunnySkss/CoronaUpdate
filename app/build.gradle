@@ -3,15 +3,6 @@ apply plugin: 'com.google.gms.google-services'
 android {
     android {
         packagingOptions {
-            exclude 'META-INF/DEPENDENCIES'
-            exclude 'META-INF/LICENSE'
-            exclude 'META-INF/LICENSE.txt'
-            exclude 'META-INF/license.txt'
-            exclude 'META-INF/NOTICE'
-            exclude 'META-INF/NOTICE.txt'
-            exclude 'META-INF/notice.txt'
-            exclude 'META-INF/ASL2.0'
-            exclude("META-INF/*.kotlin_module")
             exclude 'allclasses-frame.html'
             exclude 'allclasses-noframe.html'
             exclude 'constant-values.html'
@@ -34,6 +25,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a'
+        }
+    }
+    splits{
+        abi {
+            reset()
+            enable false
+            universalApk false // If true, also generate a universal APK
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
     }
     buildTypes {
         release {
