@@ -173,9 +173,8 @@ public class HomeActivity extends AppCompatActivity {
             countryName.add(country_list.get(0));
             for(int i=0;i<country_list.size();i++){
                 dataExists=false;
-                int country=0;
                 int countryLength=countryName.size();
-                for(country=0;country<countryLength;country++){
+                for(int country=0;country<countryLength;country++){
                     if(((ArrayList) ((Object) country_list.get(i))).get(0).toString().trim().toLowerCase().
                             equals(((ArrayList) ((Object) countryName.get(country))).get(0).toString().trim().toLowerCase())){
                         dataExists=true;
