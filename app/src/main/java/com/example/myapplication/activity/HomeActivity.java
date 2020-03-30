@@ -1,22 +1,21 @@
 package com.example.myapplication.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -27,24 +26,16 @@ import android.widget.Toast;
 import com.example.myapplication.BuildConfig;
 import com.example.myapplication.CoronaPojo;
 import com.example.myapplication.GetDataService;
-import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.RetrofitClientInstance;
 import com.example.myapplication.adapter.CountryNameRecyclerAdapter;
-import com.google.gson.Gson;
-
-import org.apache.commons.io.FileUtils;
-import org.json.CDL;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,7 +53,10 @@ public class HomeActivity extends AppCompatActivity {
     private EditText searchET;
     private TextView titleTV;
     boolean search=false;
+    private static final String FB_RC_KEY_LATEST_VERSION = "app_current_version";
+    private static final String FB_RC_KEY_APP_URL = "app_play_store_url";
     ImageView searchImg,searchCloseImg;
+    FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
                 shareApp();
             }
         });
-        fetchData();
+        forceUpdateConfig();
     }
 
     public void shareApp(){
@@ -163,7 +157,7 @@ public class HomeActivity extends AppCompatActivity {
         progressDoalog.setCanceledOnTouchOutside(false);
         progressDoalog.show();
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<CoronaPojo> call = service.getAllPhotos();
+        Call<CoronaPojo> call = service.getCoronaData();
         call.enqueue(new Callback<CoronaPojo>() {
             @Override
             public void onResponse(Call<CoronaPojo> call, Response<CoronaPojo> response) {
@@ -215,6 +209,76 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(this, "Please try after some time.", Toast.LENGTH_SHORT).show();
         }
 
+    }
+    private void forceUpdateConfig() {
+        final int versionCode = BuildConfig.VERSION_CODE;
+
+        final HashMap<String, Object> defaultMap = new HashMap<>();
+        defaultMap.put(FB_RC_KEY_LATEST_VERSION, "" + versionCode);
+        defaultMap.put(FB_RC_KEY_APP_URL, FB_RC_KEY_APP_URL);
+
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+
+        mFirebaseRemoteConfig.setConfigSettings(new FirebaseRemoteConfigSettings.Builder().setDeveloperModeEnabled(BuildConfig.DEBUG).build());
+
+        mFirebaseRemoteConfig.setDefaults(defaultMap);
+
+        Task<Void> fetchTask = mFirebaseRemoteConfig.fetch(BuildConfig.DEBUG ? 0 : TimeUnit.HOURS.toSeconds(4));
+
+        fetchTask.addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // After config data is successfully fetched, it must be activated before newly fetched
+                    // values are returned.
+                    mFirebaseRemoteConfig.activateFetched();
+
+                    int latestAppVersion = Integer.parseInt(getValue(FB_RC_KEY_LATEST_VERSION, defaultMap));
+                    String appUrl = getValue(FB_RC_KEY_APP_URL,defaultMap);
+
+                    if (latestAppVersion > versionCode) {
+                        AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
+                            .setTitle("App Update")
+                            .setCancelable(false)
+                            .setMessage("Please Update app for latest update.")
+                            .setPositiveButton("Update",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                        try {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                        } catch (android.content.ActivityNotFoundException anfe) {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                        }
+                                    }
+                                }).setNegativeButton("No, thanks",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                })
+                            .show();
+                    }
+                    else{
+                        fetchData();
+                    }
+
+                } else {
+                    Toast.makeText(HomeActivity.this, "Fetch Failed",
+                        Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+    public String getValue(String parameterKey, HashMap<String, Object> defaultMap) {
+        String value = mFirebaseRemoteConfig.getString(parameterKey);
+        if (TextUtils.isEmpty(value))
+            value = (String) defaultMap.get(parameterKey);
+
+        return value;
     }
 
 }

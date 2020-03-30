@@ -6,9 +6,6 @@ import retrofit2.http.GET;
 
 public interface GetDataService {
     @GET("/")
-    Call<CoronaPojo> getAllPhotos();
-
-    @GET("/")
-    Call<Object> getCountry();
+    Call<CoronaPojo> getCoronaData();
 
 }
