@@ -13,7 +13,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
-        android:layout_weight="1.25"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorAccent"
@@ -26,25 +26,55 @@
             android:weightSum="1"
             android:orientation="horizontal">
             <TextView
-                android:layout_weight=".95"
+                android:id="@+id/titleTV"
+                android:layout_weight=".9"
                 android:text="Country Names"
                 android:layout_width="wrap_content"
                 android:textColor="@android:color/white"
                 android:textSize="24dp"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 android:gravity="center">
-
             </TextView>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".9"
+                android:id="@+id/searchET"
+                android:textColor="@android:color/white"
+                android:hint="enter country name"
+                android:textColorHint="@android:color/white"
+                android:cursorVisible="true"
+                android:visibility="gone"
+                ></EditText>
+            <ImageView
+                android:id="@+id/searchImg"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/search"
+                android:layout_weight=".05"
+
+                ></ImageView>
+            <ImageView
+                android:id="@+id/searchCloseImg"
+                android:src="@drawable/close"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:visibility="gone"
+                ></ImageView>
+
 
             <ImageView
                 android:id="@+id/shareApp"
                 android:layout_weight=".05"
                 android:layout_width="25dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center|end"
                 android:background="@drawable/share_icon"
                 android:layout_marginRight="7dp"
+                android:visibility="visible"
+                android:padding="3dp"
                 >
 
             </ImageView>
@@ -53,7 +83,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_weight="8.5"
+        android:layout_weight="8.75"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/recycler"

@@ -12,11 +12,14 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +59,11 @@ public class HomeActivity extends AppCompatActivity {
     private TextView totalInfect,totalRecover,totalDeath;
     private ImageView shareApp;
     private Toolbar toolbar;
+    private EditText searchET;
+    private TextView titleTV;
+    boolean search=false;
+    ImageView searchImg,searchCloseImg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +72,68 @@ public class HomeActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         myRecycler=findViewById(R.id.recycler);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
+        titleTV=findViewById(R.id.titleTV);
         totalInfect=findViewById(R.id.totalInfect);
         totalRecover=findViewById(R.id.totalRecover);
         totalDeath=findViewById(R.id.totalDeath);
         countryName=new ArrayList<String>();
         shareApp=findViewById(R.id.shareApp);
         toolbar=findViewById(R.id.toolbar);
+        searchET=findViewById(R.id.searchET);
+        searchImg=findViewById(R.id.searchImg);
+        searchCloseImg=findViewById(R.id.searchCloseImg);
+        searchImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                titleTV.setVisibility(View.GONE);
+                searchImg.setVisibility(View.GONE);
+                searchET.setVisibility(View.VISIBLE);
+                searchCloseImg.setVisibility(View.VISIBLE);
+            }
+        });
+        searchCloseImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                titleTV.setVisibility(View.VISIBLE);
+                searchImg.setVisibility(View.VISIBLE);
+                searchET.setVisibility(View.GONE);
+                searchCloseImg.setVisibility(View.GONE);
+                adapter.filterList(countryName);
+                searchET.setText("");
+            }
+        });
+        searchET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.length()>0){
+                    searchCountry=new ArrayList<>();
+                    for(int i=0;i<countryName.size();i++) {
+                        if (((ArrayList) ((Object) countryName.get(i))).get(0).toString().toLowerCase().contains(s.toString().toLowerCase())) {
+                            //Toast.makeText(HomeActivity.this, "Avail", Toast.LENGTH_SHORT).show();
+                            searchCountry.add(countryName.get(i));
+                        }
+                    }
+                    adapter.filterList(searchCountry);
+                }
+                if(s.length()<=0){
+                    adapter.filterList(countryName);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         setSupportActionBar(toolbar);
+
         shareApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,47 +141,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         fetchData();
-
-
-    }
-
-    boolean searchClose=false;
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.dashbord, menu);
-        MenuItem mSearch = menu.findItem(R.id.appSearchBar);
-        SearchView mSearchView = (SearchView) mSearch.getActionView();
-        mSearchView.setBackgroundColor(Color.parseColor("#ffffff"));
-        mSearchView.setQueryHint("Search");
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                adapter.filterList(countryName);
-                //setAdapter(countryName);
-                return false;
-            }
-        });
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(newText.length()>0){
-                    searchCountry=new ArrayList<>();
-                    for(int i=0;i<countryName.size();i++) {
-                        if (((ArrayList) ((Object) countryName.get(i))).get(0).toString().toLowerCase().contains(newText.toLowerCase())) {
-                            //Toast.makeText(HomeActivity.this, "Avail", Toast.LENGTH_SHORT).show();
-                            searchCountry.add(countryName.get(i));
-                        }
-                    }
-                    adapter.filterList(searchCountry);
-                }
-                return true;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
     }
 
     public void shareApp(){

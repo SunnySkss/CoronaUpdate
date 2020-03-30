@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical"
+android:gravity="center"
+android:background="#000000ff"
+android:id="@+id/LL" >
+
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" >
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp" >
+
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_round"
+            android:weightSum="3"
+            >
+            <TextView
+                android:id="@+id/countryNameTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contry Information"
+                android:padding="10dp"
+                android:gravity="center|left"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="18dp"
+                android:textColor="@android:color/black"
+                ></TextView>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="5"
+                    android:src="@drawable/patient"
+                    android:layout_gravity="right"
+                    android:foregroundGravity="right"
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/totalInfect"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:text="NA"
+                    android:textStyle="bold"
+                    ></TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="5"
+                    android:src="@drawable/recover"
+                    android:layout_gravity="right"
+                    android:foregroundGravity="right"
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/totalRecover"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:textSize="16dp"
+                    android:text="NA"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#4A7717"
+                    ></TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="10">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="5"
+                    android:src="@drawable/death"
+                    android:layout_gravity="right"
+                    android:foregroundGravity="right"
+                    ></ImageView>
+                <TextView
+                    android:id="@+id/totalDeath"
+                    android:textSize="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:text="NA"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/holo_red_dark"
+
+                    ></TextView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <ImageView
+        android:layout_width="30dp"
+        android:id="@+id/closeDialog"
+        android:layout_height="30dp"
+        android:foregroundGravity="right"
+        android:layout_gravity="right|top"
+        android:contentDescription="test"
+        android:src="@drawable/icon_cancel" />
+</FrameLayout>
+</RelativeLayout>
