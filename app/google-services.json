@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "337052657706",
-    "firebase_url": "https://coronalive-9d788.firebaseio.com",
-    "project_id": "coronalive-9d788",
-    "storage_bucket": "coronalive-9d788.appspot.com"
+    "project_number": "818208961643",
+    "firebase_url": "https://coronaupdate-80249.firebaseio.com",
+    "project_id": "coronaupdate-80249",
+    "storage_bucket": "coronaupdate-80249.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:337052657706:android:4375b5acc1b0b75c96bb53",
+        "mobilesdk_app_id": "1:818208961643:android:70f1ce518e1c912101ed2e",
         "android_client_info": {
-          "package_name": "com.rohit.coronalive"
+          "package_name": "com.rohit.coronaupdate"
         }
       },
       "oauth_client": [
         {
-          "client_id": "337052657706-0qk7a4dcb9a5e7sqn6rc1ubvkc18he9i.apps.googleusercontent.com",
+          "client_id": "818208961643-f3ljn7q3sd5v36393pb4920717j61aeh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB2TyjMIbr03qDrg_SueltqUBUTVJChYAs"
+          "current_key": "AIzaSyAVH9j8Fno19YBL1dWkvAIYhFqrGkA8ZS0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "337052657706-0qk7a4dcb9a5e7sqn6rc1ubvkc18he9i.apps.googleusercontent.com",
+              "client_id": "818208961643-f3ljn7q3sd5v36393pb4920717j61aeh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
