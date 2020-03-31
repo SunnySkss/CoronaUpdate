@@ -92,6 +92,7 @@ public class CountryNameRecyclerAdapter extends RecyclerView.Adapter<CountryName
             totalDeath.setText(total_Death);
             totalRecove.setText(totalRecovered);
             countryInfoDialog.show();
+            countryInfoDialog.setCanceledOnTouchOutside(false);
             closeDialog.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<String> searchCountry;
     private ProgressDialog progressDoalog;
     private TextView totalInfect, totalRecover, totalDeath;
-    private Toolbar toolbar;
+   // private Toolbar toolbar;
     boolean search = false;
     private static final String FB_RC_KEY_LATEST_VERSION = "app_current_version";
     private static final String FB_RC_KEY_APP_URL = "app_play_store_url";
@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
         totalRecover = findViewById(R.id.totalRecover);
         totalDeath = findViewById(R.id.totalDeath);
         countryName = new ArrayList<String>();
-        toolbar = findViewById(R.id.toolbar);
+       // toolbar = findViewById(R.id.toolbar);
         mSearchbox = findViewById(R.id.searchbox);
        // mSearchbox.revealFromMenuItem(R.id.appSearchBar, this);
         mShowSearch  = findViewById(R.id.showSearch);
