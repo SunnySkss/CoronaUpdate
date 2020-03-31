@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10"
-    android:background="#aaaaaF"
+    android:background="#000"
     tools:context="com.example.myapplication.activity.HomeActivity">
 
         <RelativeLayout  android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/recycler"
-        android:background="#F5F2F2"
+        android:background="#444141"
         />
     <LinearLayout
         android:layout_marginTop="5dp"
@@ -74,7 +74,7 @@
                 android:layout_weight="5"
                 android:textSize="16dp"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:text="NA"
                 android:textStyle="bold"
                 ></TextView>

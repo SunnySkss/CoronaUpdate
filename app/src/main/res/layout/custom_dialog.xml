@@ -27,7 +27,7 @@ android:id="@+id/LL" >
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/bg_round"
+            android:background="@drawable/bg_customalert"
             android:weightSum="3"
             >
             <TextView
@@ -40,7 +40,7 @@ android:id="@+id/LL" >
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:textSize="18dp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 ></TextView>
 
             <LinearLayout
@@ -65,7 +65,7 @@ android:id="@+id/LL" >
                     android:layout_weight="5"
                     android:textSize="16dp"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:text="NA"
                     android:textStyle="bold"
                     ></TextView>
@@ -95,7 +95,7 @@ android:id="@+id/LL" >
                     android:text="NA"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="#4A7717"
+                    android:textColor="#5C9B0B"
                     ></TextView>
 
             </LinearLayout>
