@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:weightSum="10"
     android:background="#E5F3DE"
-
     tools:context="com.example.myapplication.activity.HomeActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,67 +18,33 @@
         android:background="@color/colorAccent"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         >
-        <LinearLayout
-            android:gravity="center|left"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="1"
-            android:orientation="horizontal">
+        <RelativeLayout  android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/showSearch"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_search"
+                ></ImageView>
             <TextView
-                android:id="@+id/titleTV"
-                android:layout_weight=".9"
-                android:text="Country Names"
-                android:layout_width="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:gravity="center">
-            </TextView>
-            <EditText
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight=".9"
-                android:id="@+id/searchET"
+                android:layout_width="wrap_content"
+                android:text="Corona Live Update"
+                android:gravity="center"
                 android:textColor="@android:color/white"
-                android:hint="enter country name"
-                android:textColorHint="@android:color/white"
-                android:cursorVisible="true"
-                android:visibility="gone"
-                ></EditText>
-            <ImageView
-                android:id="@+id/searchImg"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/search"
-                android:layout_weight=".05"
+                android:textSize="24sp"
+                android:layout_marginLeft="10dp"
+                ></TextView>
+        <com.quinny898.library.persistentsearch.SearchBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchbox"
+            android:visibility="gone"
+            />
 
-                ></ImageView>
-            <ImageView
-                android:id="@+id/searchCloseImg"
-                android:src="@drawable/close"
-                android:layout_width="25dp"
-                android:layout_height="20dp"
-                android:visibility="gone"
-                ></ImageView>
-
-
-            <ImageView
-                android:id="@+id/shareApp"
-                android:layout_weight=".05"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center|end"
-                android:background="@drawable/share_icon"
-                android:layout_marginRight="7dp"
-                android:visibility="visible"
-                android:padding="3dp"
-                >
-
-            </ImageView>
-            ></LinearLayout>
-
+        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

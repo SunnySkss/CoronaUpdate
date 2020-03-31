@@ -15,10 +15,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.quinny898.library.persistentsearch.SearchBox;
+import com.quinny898.library.persistentsearch.SearchResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,15 +52,13 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<String> searchCountry;
     private ProgressDialog progressDoalog;
     private TextView totalInfect, totalRecover, totalDeath;
-    private ImageView shareApp;
     private Toolbar toolbar;
-    private EditText searchET;
-    private TextView titleTV;
     boolean search = false;
     private static final String FB_RC_KEY_LATEST_VERSION = "app_current_version";
     private static final String FB_RC_KEY_APP_URL = "app_play_store_url";
-    ImageView searchImg, searchCloseImg;
     FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private SearchBox mSearchbox;
+    private ImageView mShowSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,50 +68,54 @@ public class HomeActivity extends AppCompatActivity {
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         myRecycler = findViewById(R.id.recycler);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
-        titleTV = findViewById(R.id.titleTV);
         totalInfect = findViewById(R.id.totalInfect);
         totalRecover = findViewById(R.id.totalRecover);
         totalDeath = findViewById(R.id.totalDeath);
         countryName = new ArrayList<String>();
-        shareApp = findViewById(R.id.shareApp);
         toolbar = findViewById(R.id.toolbar);
-        searchET = findViewById(R.id.searchET);
-        searchImg = findViewById(R.id.searchImg);
-        searchCloseImg = findViewById(R.id.searchCloseImg);
-        searchImg.setOnClickListener(new View.OnClickListener() {
+        mSearchbox = findViewById(R.id.searchbox);
+        mSearchbox.setLogoText("Search for country");
+       // mSearchbox.revealFromMenuItem(R.id.appSearchBar, this);
+        mShowSearch  = findViewById(R.id.showSearch);
+        mShowSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                titleTV.setVisibility(View.GONE);
-                searchImg.setVisibility(View.GONE);
-                searchET.setVisibility(View.VISIBLE);
-                searchCloseImg.setVisibility(View.VISIBLE);
+                mSearchbox.setVisibility(View.VISIBLE);
             }
         });
-        searchCloseImg.setOnClickListener(new View.OnClickListener() {
+        mSearchbox.setAnimateDrawerLogo(false);
+        mSearchbox.setDrawerLogo(R.mipmap.ic_launcher);
+        mSearchbox.setOverflowMenu(R.menu.overflow_menu);
+        mSearchbox.setOverflowMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                titleTV.setVisibility(View.VISIBLE);
-                searchImg.setVisibility(View.VISIBLE);
-                searchET.setVisibility(View.GONE);
-                searchCloseImg.setVisibility(View.GONE);
-                adapter.filterList(countryName);
-                searchET.setText("");
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.test_menu_item:
+                        shareApp();
+                        return true;
+                }
+                return false;
             }
         });
-        searchET.addTextChangedListener(new TextWatcher() {
+        mSearchbox.setSearchListener(new SearchBox.SearchListener(){
+
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onSearchOpened() {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onSearchClosed() {
+                //Use this to un-tint the screen
+                Log.e("Search ","Close");
+            }
 
+            @Override
+            public void onSearchTermChanged(String s) {
                 if (s.length() > 0) {
                     searchCountry = new ArrayList<>();
                     for (int i = 0; i < countryName.size(); i++) {
-                        if (((ArrayList) ((Object) countryName.get(i))).get(0).toString().toLowerCase().contains(s.toString().toLowerCase())) {
-                            //Toast.makeText(HomeActivity.this, "Avail", Toast.LENGTH_SHORT).show();
+                        if (((ArrayList) ((Object) countryName.get(i))).get(0).toString().toLowerCase().contains(s.toLowerCase())) {
                             searchCountry.add(countryName.get(i));
                         }
                     }
@@ -120,20 +126,30 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
 
+
+
+
             @Override
-            public void afterTextChanged(Editable s) {
+            public void onSearch(String searchTerm) {
+                Log.e("Search ","Search");
+            }
+
+            @Override
+            public void onResultClick(SearchResult searchResult) {
 
             }
-        });
 
-        setSupportActionBar(toolbar);
 
-        shareApp.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
-            public void onClick(View v) {
-                shareApp();
+            public void onSearchCleared() {
+                Log.e("Search ","Cleared");
+
             }
+
         });
+
     }
 
     public void shareApp() {
@@ -160,12 +176,12 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<CoronaPojo>() {
             @Override
             public void onResponse(Call<CoronaPojo> call, Response<CoronaPojo> response) {
-                    if (response.isSuccessful() && response.code() == 200) {
-                        totalDeath.setText(response.body().getCorona_cases().get(1).trim());
-                        totalInfect.setText(response.body().getCorona_cases().get(0).trim());
-                        totalRecover.setText(response.body().getCorona_cases().get(2).trim());
-                        setAdapter(((ArrayList) response.body().getCorona()));
-                    }
+                if (response.isSuccessful() && response.code() == 200) {
+                    totalDeath.setText(response.body().getCorona_cases().get(1).trim());
+                    totalInfect.setText(response.body().getCorona_cases().get(0).trim());
+                    totalRecover.setText(response.body().getCorona_cases().get(2).trim());
+                    setAdapter(((ArrayList) response.body().getCorona()));
+                }
             }
 
             @Override
@@ -288,6 +304,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
         finish();
     }
 }
