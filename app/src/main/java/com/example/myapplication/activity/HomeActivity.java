@@ -74,16 +74,17 @@ public class HomeActivity extends AppCompatActivity {
         countryName = new ArrayList<String>();
         toolbar = findViewById(R.id.toolbar);
         mSearchbox = findViewById(R.id.searchbox);
-        mSearchbox.setLogoText("Search for country");
        // mSearchbox.revealFromMenuItem(R.id.appSearchBar, this);
         mShowSearch  = findViewById(R.id.showSearch);
         mShowSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSearchbox.setVisibility(View.VISIBLE);
+                mSearchbox.setLogoText("Search for country");
+
             }
         });
-        mSearchbox.setAnimateDrawerLogo(false);
+      //  mSearchbox.setAnimateDrawerLogo(false);
         mSearchbox.setDrawerLogo(R.mipmap.ic_launcher);
         mSearchbox.setOverflowMenu(R.menu.overflow_menu);
         mSearchbox.setOverflowMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -108,6 +109,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onSearchClosed() {
                 //Use this to un-tint the screen
                 Log.e("Search ","Close");
+                adapter.filterList(countryName);
             }
 
             @Override
