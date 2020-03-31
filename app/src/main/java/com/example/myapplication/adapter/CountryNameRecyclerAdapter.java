@@ -1,7 +1,6 @@
 package com.example.myapplication.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -9,17 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activity.CountryDetails;
 
 import java.util.ArrayList;
 
@@ -72,13 +67,13 @@ public class CountryNameRecyclerAdapter extends RecyclerView.Adapter<CountryName
         try {
             String countryNameTVTxt = arrayList.get(0).toString().trim().equals("") ? "-" : arrayList.get(0).toString().trim();
             String totCase = arrayList.get(1).toString().trim().equals("") ? "-" : arrayList.get(1).toString().trim();
-            String total_Death = arrayList.get(3).toString().trim().equals("") ? "-" : arrayList.get(3).toString().trim();
+            String total_Lost = arrayList.get(3).toString().trim().equals("") ? "-" : arrayList.get(3).toString().trim();
             String totalRecovered = arrayList.get(5).toString().trim().equals("") ? "-" : arrayList.get(5).toString().trim();
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View myView = layoutInflater.inflate(R.layout.custom_dialog, null);
             final TextView totalCase = myView.findViewById(R.id.totalInfect);
-            final TextView totalDeath = myView.findViewById(R.id.totalDeath);
+            final TextView totalLose = myView.findViewById(R.id.totalLose);
             final TextView totalRecove = myView.findViewById(R.id.totalRecover);
             final TextView countryNameTV = myView.findViewById(R.id.countryNameTV);
             final ImageView closeDialog = myView.findViewById(R.id.closeDialog);
@@ -89,7 +84,7 @@ public class CountryNameRecyclerAdapter extends RecyclerView.Adapter<CountryName
 
             countryNameTV.setText("Corona Current Status Of: " + countryNameTVTxt);
             totalCase.setText(totCase);
-            totalDeath.setText(total_Death);
+            totalLose.setText(total_Lost);
             totalRecove.setText(totalRecovered);
             countryInfoDialog.show();
             countryInfoDialog.setCanceledOnTouchOutside(false);

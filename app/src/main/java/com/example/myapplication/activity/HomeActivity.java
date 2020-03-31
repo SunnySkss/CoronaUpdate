@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -51,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<String> countryName;//=new ArrayList<String>();
     private ArrayList<String> searchCountry;
     private ProgressDialog progressDoalog;
-    private TextView totalInfect, totalRecover, totalDeath;
+    private TextView totalInfect, totalRecover, totalLose;
    // private Toolbar toolbar;
     boolean search = false;
     private static final String FB_RC_KEY_LATEST_VERSION = "app_current_version";
@@ -70,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
         totalInfect = findViewById(R.id.totalInfect);
         totalRecover = findViewById(R.id.totalRecover);
-        totalDeath = findViewById(R.id.totalDeath);
+        totalLose = findViewById(R.id.totalLose);
         countryName = new ArrayList<String>();
        // toolbar = findViewById(R.id.toolbar);
         mSearchbox = findViewById(R.id.searchbox);
@@ -179,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CoronaPojo> call, Response<CoronaPojo> response) {
                 if (response.isSuccessful() && response.code() == 200) {
-                    totalDeath.setText(response.body().getCorona_cases().get(1).trim());
+                    totalLose.setText(response.body().getCorona_cases().get(1).trim());
                     totalInfect.setText(response.body().getCorona_cases().get(0).trim());
                     totalRecover.setText(response.body().getCorona_cases().get(2).trim());
                     setAdapter(((ArrayList) response.body().getCorona()));
@@ -300,7 +302,17 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        forceUpdateConfig();
+        if(isNetworkConnected()) {
+            forceUpdateConfig();
+        }else {
+            Toast.makeText(this, "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     @Override
