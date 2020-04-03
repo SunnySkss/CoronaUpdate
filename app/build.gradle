@@ -8,20 +8,6 @@ repositories {
     }
 }
 android {
-    android {
-        packagingOptions {
-            exclude 'allclasses-frame.html'
-            exclude 'allclasses-noframe.html'
-            exclude 'constant-values.html'
-            exclude 'stylesheet.css'
-            exclude 'deprecated-list.html'
-            exclude 'index.html'
-            exclude 'index-all.html'
-            exclude 'serialized-form.html'
-            exclude 'help-doc.html'
-            exclude 'overview-tree.html'
-        }
-    }
 
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -29,7 +15,7 @@ android {
         applicationId "com.rohit.coronaupdate"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
